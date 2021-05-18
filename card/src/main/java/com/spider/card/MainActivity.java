@@ -14,12 +14,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.spider.card.business.SpiderSolitaire;
 import com.spider.card.business.SpiderSolitaires;
 import com.spider.card.facade.presenter.SpiderSolitairePresenter;
-import com.spider.card.facade.view.GameScoreView;
 import com.spider.card.ui.view.AndroidDrawingCardsView;
 import com.spider.card.ui.view.AndroidGameCompleteView;
+import com.spider.card.ui.view.AndroidGameScoreView;
 import com.spider.card.ui.view.AndroidSortedCardsView;
 import com.spider.card.ui.view.AndroidSpiderSolitaireView;
 import com.spider.card.utils.KeyValueUtil;
+import com.spider.card.utils.MusicPlayer;
 
 import java.util.concurrent.TimeUnit;
 
@@ -33,8 +34,9 @@ public class MainActivity extends AppCompatActivity {
 
     private final Subject<Menu, Menu> createOptionsMenuEvents = PublishSubject.create();
     private AndroidSpiderSolitaireView spiderSolitaireView;
-    private TextView timingTv, stepsTv, menuTv,replyTv;
+    private TextView timingTv, menuTv, replyTv;
     private Subscription subscription;
+    private AndroidGameScoreView stepsTv;
 
     public Observable<Menu> getCreateOptionsMenuEvents() {
         return createOptionsMenuEvents.asObservable();
@@ -49,13 +51,14 @@ public class MainActivity extends AppCompatActivity {
         stepsTv = findViewById(R.id.steps_tv);
         menuTv = findViewById(R.id.menu_tv);
         replyTv = findViewById(R.id.reply_tv);
-        newGame();
         menuTv.setOnClickListener(v -> {
             showMenu();
         });
+        // DES：开始计时和结束游戏
         replyTv.setOnClickListener(v -> {
             boolean back = spiderSolitaireView != null && !spiderSolitaireView.onBackPressed();
         });
+        newGame();
     }
 
     private void newGame() {
@@ -64,11 +67,11 @@ public class MainActivity extends AppCompatActivity {
         AndroidDrawingCardsView drawingCardsView = new AndroidDrawingCardsView(this);
         AndroidSortedCardsView sortedCardsView = new AndroidSortedCardsView(this);
         AndroidGameCompleteView gameCompleteView = new AndroidGameCompleteView(this);
-
         new SpiderSolitairePresenter(
-                solitaire, spiderSolitaireView, drawingCardsView, sortedCardsView, (GameScoreView) stepsTv, gameCompleteView
+                solitaire, spiderSolitaireView, drawingCardsView, sortedCardsView, stepsTv, gameCompleteView
         );
         startTiming();
+        MusicPlayer.getInstance(this).play(R.raw.solitaire_deck);
     }
 
     private void startTiming() {

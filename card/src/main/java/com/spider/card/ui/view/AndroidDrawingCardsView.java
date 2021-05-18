@@ -4,10 +4,11 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 import com.spider.card.R;
-import com.spider.card.ui.widget.CardStackLayout;
 import com.spider.card.domain.entity.Card;
 import com.spider.card.facade.view.DrawingCardsView;
 import com.spider.card.facade.view.EventBusHelper;
+import com.spider.card.ui.widget.CardStackLayout;
+import com.spider.card.utils.MusicPlayer;
 
 import rx.Observable;
 
@@ -36,6 +37,7 @@ public class AndroidDrawingCardsView extends CardStackLayout implements DrawingC
     private void init() {
         setDelta(getResources().getDimensionPixelSize(R.dimen.piled_cards_delta));
         super.setOnClickListener(v -> {
+            MusicPlayer.getInstance(getContext()).play(R.raw.solitaire_shuffle);
             eventBusHelper.nextEvent(new DrawEvent(this));
         });
     }

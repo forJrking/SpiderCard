@@ -14,7 +14,7 @@ public class WidgetUtils {
     if (parent.getChildCount() > 0) {
       return parent.getChildAt(parent.getChildCount() - 1);
     } else {
-      return null;
+      return parent;
     }
   }
 

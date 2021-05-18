@@ -85,7 +85,9 @@ public class SpiderSolitaire {
         }
         // do move out cards sorted out
         final List<Card> moved = new ArrayList<>(13);
-        final int position = cardStack.cards.size() - 13;
+        int size = cardStack.cards.size();
+        int position = size - 13;
+        if (position < 0) position = 0;
         while (cardStack.cards.size() > position) {
             moved.add(cardStack.cards.remove(position));
         }
@@ -211,9 +213,12 @@ public class SpiderSolitaire {
         if (!state.canDraw()) {
             return false;
         }
-        //* all cardStack nonempty //TODO real check this?
+
         for (State.CardStack cardStack : state.cardStacks) {
-            if (cardStack.cards.isEmpty()) {
+//            if (cardStack.cards.isEmpty()) {
+//                return false;
+//            }
+            if (cardStack.cards == null) {
                 return false;
             }
         }

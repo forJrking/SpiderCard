@@ -31,7 +31,9 @@ public class SpiderSolitairePresenter {
 
     private final GameCompleteView gameCompleteView;
 
-    /** DES: 计步和积分 */
+    /**
+     * DES: 计步和积分
+     */
     private final GameScoreView gameScoreView;
 
     public SpiderSolitairePresenter(
