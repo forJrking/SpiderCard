@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Spider</string>
+    <string name="crash_dialog_text">
+        An unexpected error occurred forcing the application to stop.
+        Please help us fix this by sending us error data,
+        all you have to do is click OK.
+    </string>
+
+    <string name="action_new_game">New Game</string>
+    <string name="action_exit">Exit</string>
+
+    <string name="hint_message_exit_through_menu">hint: you can exit through menu</string>
+
+    <string name="game_complete_dialog_title">Congratulation</string>
+    <string name="game_complete_dialog_message">You win!</string>
+    <string name="settings">Settings</string>
+    <string name="reply">Reply</string>
+</resources>
