@@ -4,5 +4,5 @@ public interface GameScoreView extends View {
 
   void reset();
   void gauge();
-
+  void win();
 }

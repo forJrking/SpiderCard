@@ -28,6 +28,7 @@ public class MusicPlayer {
     }
 
     public void play(int raw) {
+        if (!KeyValueUtil.openVoice()) return;
         int id = pool.get(raw);
         mSp.play(id, 1, 1, 0, 0, 1.8f);
         if (!pool.containsKey(R.raw.solitaire_win)) {

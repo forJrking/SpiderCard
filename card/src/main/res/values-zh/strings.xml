@@ -12,4 +12,12 @@
     <string name="game_complete_dialog_message">你赢了！</string>
     <string name="settings">设置</string>
     <string name="reply">回撤</string>
+    <string name="help_tip">帮助</string>
+    <string name="level">难度</string>
+    <string name="voice">声音</string>
+    <string name="one_color">单色</string>
+    <string name="two_color">双色</string>
+    <string name="four_color">四色</string>
+    <string name="skin">Skin</string>
+    <string name="next_game">下局生效!</string>
 </resources>

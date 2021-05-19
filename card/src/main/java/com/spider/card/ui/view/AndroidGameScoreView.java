@@ -27,10 +27,8 @@ public class AndroidGameScoreView extends androidx.appcompat.widget.AppCompatTex
     public void reset() {
         num = 0;
         setText(num + "");
-        if (l != null) {
-            l.onReset();
-        }
     }
+
 
     @Override
     public void gauge() {
@@ -39,13 +37,20 @@ public class AndroidGameScoreView extends androidx.appcompat.widget.AppCompatTex
         MusicPlayer.getInstance(getContext()).play(R.raw.solitaire_flip);
     }
 
-    private OnReset l;
+    @Override
+    public void win() {
+        if (l != null) {
+            l.onWin();
+        }
+    }
 
-    public void setOnReset(OnReset l) {
+    private OnWinListener l;
+
+    public void setOnWin(OnWinListener l) {
         this.l = l;
     }
 
-    public interface OnReset {
-        void onReset();
+    public interface OnWinListener {
+        void onWin();
     }
 }

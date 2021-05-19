@@ -1,11 +1,7 @@
 package com.spider.card;
 
-import android.app.Dialog;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Menu;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,10 +54,16 @@ public class MainActivity extends AppCompatActivity {
         replyTv.setOnClickListener(v -> {
             boolean back = spiderSolitaireView != null && !spiderSolitaireView.onBackPressed();
         });
+        stepsTv.setOnWin(this::stopTiming);
         newGame();
     }
 
-    private void newGame() {
+    private void showMenu() {
+        MenuDialog menuDialog = new MenuDialog(this, R.style.AppTheme_Dialog);
+        menuDialog.show();
+    }
+
+    public void newGame() {
         int level = KeyValueUtil.getLevel();
         SpiderSolitaire solitaire = SpiderSolitaires.newGame(level);
         AndroidDrawingCardsView drawingCardsView = new AndroidDrawingCardsView(this);
@@ -75,9 +77,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startTiming() {
-        if (subscription != null) {
-            subscription.unsubscribe();
-        }
+        stopTiming();
         subscription = Observable.interval(1, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aLong -> {
                     timingTv.setText(showTime(aLong));
@@ -98,87 +98,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        stopTiming();
+    }
+
+    private void stopTiming() {
         if (subscription != null && subscription.isUnsubscribed()) {
             subscription.unsubscribe();
         }
     }
-
-    private Button zeroBtn, oneBtn, twoBtn, fourBtn;
-
-    private void showMenu() {
-        Dialog dialog = new Dialog(this, R.style.AppTheme_Dialog);
-        dialog.setContentView(R.layout.dialog_menu);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.setCancelable(true);
-        dialog.setCanceledOnTouchOutside(true);
-        dialog.findViewById(R.id.exit_btn).setOnClickListener(v -> {
-            dialog.dismiss();
-            finish();
-        });
-        dialog.findViewById(R.id.new_btn).setOnClickListener(v -> {
-            dialog.dismiss();
-            newGame();
-        });
-        dialog.findViewById(R.id.help_btn).setOnClickListener(v -> {
-            dialog.dismiss();
-            Toast.makeText(this, "帮助", Toast.LENGTH_LONG).show();
-        });
-        zeroBtn = dialog.findViewById(R.id.zero_btn);
-        oneBtn = dialog.findViewById(R.id.one_btn);
-        twoBtn = dialog.findViewById(R.id.two_btn);
-        fourBtn = dialog.findViewById(R.id.four_btn);
-        int level = KeyValueUtil.getLevel();
-        switch (level) {
-            case 0:
-                zeroBtn.setEnabled(false);
-                break;
-            case 2:
-                twoBtn.setEnabled(false);
-                break;
-            case 4:
-                fourBtn.setEnabled(false);
-                break;
-            default:
-                oneBtn.setEnabled(false);
-                break;
-        }
-        zeroBtn.setOnClickListener(v -> {
-            doLevel(0);
-            oneBtn.setEnabled(true);
-            twoBtn.setEnabled(true);
-            fourBtn.setEnabled(true);
-            zeroBtn.setEnabled(false);
-        });
-        oneBtn.setOnClickListener(v -> {
-            doLevel(1);
-            oneBtn.setEnabled(false);
-            twoBtn.setEnabled(true);
-            fourBtn.setEnabled(true);
-            zeroBtn.setEnabled(true);
-        });
-        twoBtn.setOnClickListener(v -> {
-            doLevel(2);
-            twoBtn.setEnabled(false);
-            oneBtn.setEnabled(true);
-            fourBtn.setEnabled(true);
-            zeroBtn.setEnabled(true);
-        });
-        fourBtn.setOnClickListener(v -> {
-            doLevel(4);
-            fourBtn.setEnabled(false);
-            twoBtn.setEnabled(true);
-            oneBtn.setEnabled(true);
-            zeroBtn.setEnabled(true);
-        });
-
-        dialog.show();
-    }
-
-    private void doLevel(int i) {
-        KeyValueUtil.setLevel(i);
-        Toast.makeText(this, "下局生效!", Toast.LENGTH_SHORT).show();
-    }
-
 
     @Override
     public void onBackPressed() {

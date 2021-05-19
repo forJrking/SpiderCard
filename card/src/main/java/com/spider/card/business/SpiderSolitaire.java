@@ -62,21 +62,27 @@ public class SpiderSolitaire {
         }
         final State.CardStack cardStack = state.cardStacks.get(cardStackIndex);
 
-        if (cardStack.cards.isEmpty()) {
+        List<Card> cardList = cardStack.cards;
+        if (cardList.size() < 13) {
             return false;
         }
-
         // * the last card should be A
-        Card biggestCard = cardStack.cards.get(cardStack.cards.size() - 1);
+        Card biggestCard = cardList.get(cardList.size() - 1);
         if (biggestCard.getRank().getId() != 1) {
             return false;
         }
-        for (int i = cardStack.cards.size() - 2; i >= 0 && i >= cardStack.openIndex; i--) {
-            Card currentCard = cardStack.cards.get(i);
+
+        for (int i = cardList.size() - 2; i >= 0 && i >= cardStack.openIndex; i--) {
+            Card currentCard = cardList.get(i);
             // * is sequential  花色一致并且是连续的
-            if (currentCard.getRank().getId() == biggestCard.getRank().getId() + 1 ||
-                    currentCard.getSuit() == biggestCard.getSuit()) {
+            int id = currentCard.getRank().getId();
+            int biggestID = biggestCard.getRank().getId() + 1;
+            if (id == biggestID || currentCard.getSuit() == biggestCard.getSuit()) {
                 biggestCard = currentCard;
+            }
+            //一堆排列最后一个是K
+            if (biggestCard.getRank() == Card.Rank.KING) {
+                break;
             }
         }
         // * the biggest card should be K
@@ -85,12 +91,13 @@ public class SpiderSolitaire {
         }
         // do move out cards sorted out
         final List<Card> moved = new ArrayList<>(13);
-        int size = cardStack.cards.size();
+        int size = cardList.size();
         int position = size - 13;
         if (position < 0) position = 0;
-        while (cardStack.cards.size() > position) {
-            moved.add(cardStack.cards.remove(position));
+        while (cardList.size() > position) {
+            moved.add(cardList.remove(position));
         }
+        if (moved.size() < 13) return false;
         state.sortedCards.add(moved);
         state.nextEvent(new State.MoveOutEvent(cardStackIndex, position));
         return true;

@@ -392,11 +392,17 @@ public class AndroidSpiderSolitaireView extends RelativeLayout implements Spider
         final ViewGroup cardStackView = (ViewGroup) cardStackListView.getChildAt(cardStackIndex);
         if (oldOpenIndex >= newOpenIndex) {
             for (int i = newOpenIndex; i < oldOpenIndex; i++) {
-                ((AndroidCardView) cardStackView.getChildAt(i)).setOpen(true);
+                AndroidCardView childAt = (AndroidCardView) cardStackView.getChildAt(i);
+                if (childAt != null) {
+                    childAt.setOpen(true);
+                }
             }
         } else { // undo updateOpenIndex (oldOpenIndex < newOpenIndex)
             for (int i = oldOpenIndex; i < newOpenIndex; i++) {
-                ((AndroidCardView) cardStackView.getChildAt(i)).setOpen(false);
+                AndroidCardView childAt = (AndroidCardView) cardStackView.getChildAt(i);
+                if (childAt != null) {
+                    childAt.setOpen(false);
+                }
             }
         }
     }

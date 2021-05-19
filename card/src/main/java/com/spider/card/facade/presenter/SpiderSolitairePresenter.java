@@ -79,7 +79,10 @@ public class SpiderSolitairePresenter {
         });
         eventBus.ofType(UpdateOpenIndexEvent.class).subscribe(event ->
                 view.updateOpenIndex(event.cardStackIndex, event.oldOpenIndex, event.newOpenIndex));
-        eventBus.ofType(GameCompleteEvent.class).subscribe(gameCompleteEvent -> gameCompleteView.show());
+        eventBus.ofType(GameCompleteEvent.class).subscribe(gameCompleteEvent -> {
+            gameScoreView.win();
+            gameCompleteView.show();
+        });
         eventBus.ofType(UndoEvent.class).subscribe(this::onUndo);
         // bind events from drawingCardsView
         drawingCardsView.getEventBus().subscribe(
