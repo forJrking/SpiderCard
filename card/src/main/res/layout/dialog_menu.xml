@@ -119,7 +119,7 @@
             android:id="@+id/skin1_btn"
             android:layout_width="35dp"
             android:layout_height="42dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="20dp"
             android:padding="1dp"
             android:scaleType="fitXY"
             android:src="@mipmap/card_back" />

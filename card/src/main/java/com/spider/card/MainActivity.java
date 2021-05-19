@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void stopTiming() {
-        if (subscription != null && subscription.isUnsubscribed()) {
+        if (subscription != null && !subscription.isUnsubscribed()) {
             subscription.unsubscribe();
         }
     }

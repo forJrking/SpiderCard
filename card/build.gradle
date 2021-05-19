@@ -16,12 +16,26 @@ android {
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
 
+    signingConfigs {
+        release {
+            keyAlias "spider"
+            keyPassword "android_pass"
+            storeFile file('spider.keystore')
+            storePassword "android_pass"
+        }
+    }
+
     buildTypes {
-        debug{
+        debug {
             minifyEnabled false
+            signingConfig signingConfigs.release
         }
         release {
-            minifyEnabled false
+            minifyEnabled true
+            //是否混淆
+            //是否移除无用资源
+            zipAlignEnabled true
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -35,9 +49,10 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.percentlayout:percentlayout:1.0.0'
     implementation 'com.jakewharton.rxbinding:rxbinding:0.4.0'
-
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.22'
     implementation 'io.reactivex:rxjava:1.1.7'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'com.google.android.material:material:1.2.1'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'

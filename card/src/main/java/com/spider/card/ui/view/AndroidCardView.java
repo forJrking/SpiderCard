@@ -35,6 +35,7 @@ public class AndroidCardView extends PercentFrameLayout {
     }
 
     private void init() {
+        contentView.setBackgroundResource(R.drawable.card_background);
         contentView.setScaleType(ImageView.ScaleType.FIT_XY);
         updateContentView();
 
@@ -56,7 +57,7 @@ public class AndroidCardView extends PercentFrameLayout {
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        if (subscription != null && subscription.isUnsubscribed()) {
+        if (subscription != null && !subscription.isUnsubscribed()) {
             subscription.unsubscribe();
         }
     }

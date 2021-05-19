@@ -2,6 +2,7 @@ package com.spider.card;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.ContextThemeWrapper;
@@ -57,7 +58,9 @@ public class MenuDialog extends Dialog {
         });
         dialog.findViewById(R.id.help_btn).setOnClickListener(v -> {
             dialog.dismiss();
-            Toast.makeText(getContext(), R.string.help_tip, Toast.LENGTH_LONG).show();
+            MainActivity context = getMainActivity();
+            context.startActivity(new Intent(context,HelperActivity.class));
+//            Toast.makeText(getContext(), R.string.help_tip, Toast.LENGTH_LONG).show();
         });
         zeroBtn = dialog.findViewById(R.id.zero_btn);
         oneBtn = dialog.findViewById(R.id.one_btn);

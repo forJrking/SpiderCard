@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryLight200"
+    android:gravity="center">
+
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/gif"
+        android:layout_width="400dp"
+        android:layout_height="200dp"/>
+
+    <TextView
+        android:id="@+id/tip_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:gravity="center"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="移动单张/多张牌,被移动牌要等于移动到位置牌数值-1,例如:9移动到10"
+        android:textColor="@color/colorAccent"
+        android:textSize="16dp"
+        android:textStyle="normal" />
+
+</LinearLayout>
