@@ -283,12 +283,12 @@ public class SpiderSolitaire {
         /**
          * cards for drawing, initially in five piles of ten with no cards showing
          */
-        public final List<Card> cardsForDrawing = new ArrayList<>(50);
+        public final List<Card> cardsForDrawing = Collections.synchronizedList(new ArrayList<>(50));
 
         /**
          * cards have been sorted out
          */
-        public final List<List<Card>> sortedCards = new LinkedList<>();
+        public final List<List<Card>> sortedCards = Collections.synchronizedList(new LinkedList<>());
 
         private final Subject<Object, Object> eventbus = PublishSubject.create();
         private final Scheduler.Worker eventBusWorker = Schedulers.trampoline().createWorker();//TODO think more
@@ -383,7 +383,7 @@ public class SpiderSolitaire {
 
         public static class CardStack {
 
-            public List<Card> cards = new ArrayList<>();
+            public List<Card> cards = Collections.synchronizedList(new ArrayList<>());
             /**
              * hide: [0, openIndex), open: [openIndex, cards.size())<br>
              * == 0 if cards.isEmpty()
