@@ -12,13 +12,13 @@
     <string name="game_complete_dialog_title">Congratulation</string>
     <string name="game_complete_dialog_message">You win!</string>
     <string name="settings">Menu</string>
-    <string name="reply">Reply</string>
+    <string name="reply">RollBack</string>
     <string name="help_tip">Help</string>
     <string name="level">Level</string>
     <string name="voice">Voice</string>
-    <string name="one_color">1</string>
-    <string name="two_color">2</string>
-    <string name="four_color">4</string>
+    <string name="one_color">Lv1</string>
+    <string name="two_color">Lv2</string>
+    <string name="four_color">Lv4</string>
     <string name="skin">Skin</string>
     <string name="next_game">下局生效!</string>
 </resources>

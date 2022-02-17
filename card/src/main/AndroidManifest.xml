@@ -10,14 +10,19 @@
         android:supportsRtl="true"
         android:testOnly="false"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.4" />
+
         <activity
             android:name=".HelperActivity"
             android:configChanges="screenSize|screenLayout|layoutDirection|smallestScreenSize|orientation"
             android:screenOrientation="landscape" />
         <activity
             android:name=".MainActivity"
-            android:configChanges="screenSize|screenLayout|layoutDirection|smallestScreenSize|orientation"
             android:screenOrientation="landscape"
+            android:resizeableActivity="false"
             android:theme="@style/Theme.SpiderCard">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

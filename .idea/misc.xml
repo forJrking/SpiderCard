@@ -3,5 +3,18 @@
   <component name="CodeInsightWorkspaceSettings">
     <option name="optimizeImportsOnTheFly" value="true" />
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="card/src/main/res/drawable/bg_wallpaper_background.xml" value="0.1" />
+        <entry key="card/src/main/res/drawable/bg_wallpaper_dot.xml" value="0.1" />
+        <entry key="card/src/main/res/drawable/bg_wallpaper_tile.xml" value="0.1" />
+        <entry key="card/src/main/res/drawable/menu_background.xml" value="0.2065" />
+        <entry key="card/src/main/res/layout/activity_helper.xml" value="0.3416666666666667" />
+        <entry key="card/src/main/res/layout/activity_main.xml" value="0.1287037037037037" />
+        <entry key="card/src/main/res/layout/dialog_menu.xml" value="0.3416666666666667" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Embedded JDK" project-jdk-type="JavaSDK" />
 </project>

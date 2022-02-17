@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:visibility="visible"
-        android:background="@mipmap/title_bg">
+        android:background="@color/colorPrimary">
 
         <com.spider.card.ui.view.AndroidGameScoreView
             android:id="@+id/steps_tv"

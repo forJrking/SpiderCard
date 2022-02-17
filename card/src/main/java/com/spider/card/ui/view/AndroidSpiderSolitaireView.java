@@ -1,5 +1,11 @@
 package com.spider.card.ui.view;
 
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+import static com.spider.card.ui.widget.WidgetUtils.forEachChild;
+import static com.spider.card.ui.widget.WidgetUtils.getLastChild;
+import static com.spider.card.ui.widget.WidgetUtils.moveChildViews;
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
@@ -25,6 +31,7 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -49,12 +56,6 @@ import rx.Subscriber;
 import rx.observables.ConnectableObservable;
 import rx.subjects.PublishSubject;
 import rx.subjects.Subject;
-
-import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
-import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
-import static com.spider.card.ui.widget.WidgetUtils.forEachChild;
-import static com.spider.card.ui.widget.WidgetUtils.getLastChild;
-import static com.spider.card.ui.widget.WidgetUtils.moveChildViews;
 
 public class AndroidSpiderSolitaireView extends RelativeLayout implements SpiderSolitaireView {
 
@@ -108,8 +109,8 @@ public class AndroidSpiderSolitaireView extends RelativeLayout implements Spider
         LayoutParams layoutParams = new LayoutParams(
                 getResources().getDimensionPixelSize(R.dimen.default_card_width),
                 getResources().getDimensionPixelSize(R.dimen.default_card_height));
-        layoutParams.rightMargin = getResources().getDimensionPixelSize(R.dimen.default_card_margin);
-        layoutParams.bottomMargin = getResources().getDimensionPixelSize(R.dimen.default_card_margin);
+        layoutParams.rightMargin = 2 * getResources().getDimensionPixelSize(R.dimen.default_card_margin);
+        layoutParams.bottomMargin = getResources().getDimensionPixelSize(R.dimen.piled_cards_delta);
         layoutParams.addRule(ALIGN_PARENT_RIGHT);
         layoutParams.addRule(ALIGN_PARENT_BOTTOM);
         if (this.drawingCardsView != null) {
@@ -134,7 +135,7 @@ public class AndroidSpiderSolitaireView extends RelativeLayout implements Spider
                 getResources().getDimensionPixelSize(R.dimen.default_card_width),
                 getResources().getDimensionPixelSize(R.dimen.default_card_height));
         layoutParams.rightMargin = getResources().getDimensionPixelSize(R.dimen.default_card_margin);
-        layoutParams.bottomMargin = getResources().getDimensionPixelSize(R.dimen.default_card_margin);
+        layoutParams.bottomMargin = getResources().getDimensionPixelSize(R.dimen.piled_cards_delta);
         layoutParams.addRule(LEFT_OF, R.id.drawing_card);
         layoutParams.addRule(ALIGN_PARENT_BOTTOM);
         if (this.sortedCardsView != null) {
@@ -446,6 +447,11 @@ public class AndroidSpiderSolitaireView extends RelativeLayout implements Spider
 
     private void show(SpiderSolitaire.State state) {
         removeAllViews();//TODO do this?
+        ImageView spider = new ImageView(getContext());
+        spider.setImageResource(R.mipmap.main_spider_ic);
+        LayoutParams iconLayout = new LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
+        iconLayout.addRule(CENTER_IN_PARENT);
+        addView(spider, iconLayout);
         // * add CardStackListView
         LayoutParams layoutParams = new LayoutParams(MATCH_PARENT, MATCH_PARENT);
         layoutParams.addRule(ALIGN_PARENT_TOP);
@@ -454,7 +460,7 @@ public class AndroidSpiderSolitaireView extends RelativeLayout implements Spider
         layoutParams.addRule(ALIGN_PARENT_BOTTOM);
         cardStackListView = newCardStackListView(getContext(), state.cardStacks);
         int top = getResources().getDimensionPixelSize(R.dimen.default_card_margin);
-        int right = getResources().getDimensionPixelSize(R.dimen.default_card_width);
+        int right = getResources().getDimensionPixelSize(R.dimen.default_card_margin);
         cardStackListView.setPadding(0, top, right, 0);
         addView(cardStackListView, layoutParams);
     }

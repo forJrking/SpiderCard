@@ -1,5 +1,7 @@
 package com.spider.card.ui.view;
 
+import static com.spider.card.ui.widget.WidgetUtils.withNumberOfChildren;
+
 import android.content.Context;
 import android.util.AttributeSet;
 
@@ -12,9 +14,7 @@ import com.spider.card.utils.MusicPlayer;
 
 import rx.Observable;
 
-import static com.spider.card.ui.widget.WidgetUtils.withNumberOfChildren;
-
-
+/**发牌区*/
 public class AndroidDrawingCardsView extends CardStackLayout implements DrawingCardsView {
 
     private final EventBusHelper<DrawEvent> eventBusHelper = EventBusHelper.create();
@@ -36,6 +36,7 @@ public class AndroidDrawingCardsView extends CardStackLayout implements DrawingC
 
     private void init() {
         setDelta(getResources().getDimensionPixelSize(R.dimen.piled_cards_delta));
+        setVertical(false);
         super.setOnClickListener(v -> {
             MusicPlayer.getInstance(getContext()).play(R.raw.solitaire_shuffle);
             eventBusHelper.nextEvent(new DrawEvent(this));

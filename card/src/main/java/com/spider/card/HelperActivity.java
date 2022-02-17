@@ -26,7 +26,7 @@ public class HelperActivity extends AppCompatActivity {
         androidx.appcompat.app.ActionBar supportActionBar = getSupportActionBar();
         // 显示返回按钮
         supportActionBar.setDisplayHomeAsUpEnabled(true);
-        supportActionBar.setTitle("左右滑动查看帮助");
+        supportActionBar.setTitle("左右滑动查看游戏规则");
 
         ArrayList<Fragment> fragments = new ArrayList<>();
         fragments.add(HelperFragment.newInstance(0));
@@ -60,9 +60,9 @@ public class HelperActivity extends AppCompatActivity {
     public static class HelperFragment extends Fragment {
 
         private final static String[] tips = {
-                "移动单张/多张牌,被移动牌要等于移动到位置牌数值-1,例如:9移动到10",
-                "点击右下角牌堆,发牌",
-                "收堆,牌的大小由 K-A 从大到小切花色要一致,\n例如 K♠,Q♠,J♠,10♠,9♠,8♠,7♠,6♠,5♠,4♠,3♠,2♠,♠A",
+                "移动单张/多张牌,被移动牌要比移动到位置牌数值小1(无关花色),例如:9移动到10下面",
+                "一般在上方牌无法移动后,点击右下角牌堆,发牌",
+                "自动收牌,当牌的大小由 K-A 从大到小且花色要一致,\n例如 K♠,Q♠,J♠,10♠,9♠,8♠,7♠,6♠,5♠,4♠,3♠,2♠,♠A",
                 "获胜,所有牌都收堆结束,即可获得胜利",
         };
 

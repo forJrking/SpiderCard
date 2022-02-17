@@ -12,7 +12,8 @@ import com.spider.card.ui.view.AndroidCardView;
 
 public class CardStackLayout extends ViewGroup {
 
-    private int delta, defaultH;
+    private int delta, defaultDelta;
+    private boolean vertical = true;
 
     public CardStackLayout(Context context) {
         super(context);
@@ -38,8 +39,8 @@ public class CardStackLayout extends ViewGroup {
         if (delta == -1) {
             delta = getResources().getDimensionPixelSize(R.dimen.open_card_stack_layout_delta);
         }
-
-        defaultH = getResources().getDimensionPixelSize(R.dimen.default_card_stack_layout_delta);
+        vertical = a.getBoolean(R.styleable.CardStackLayout_vertical, true);
+        defaultDelta = getResources().getDimensionPixelSize(R.dimen.default_card_stack_layout_delta);
         a.recycle();
 
     }
@@ -56,6 +57,12 @@ public class CardStackLayout extends ViewGroup {
         requestLayout();
     }
 
+    public void setVertical(boolean vertical) {
+        this.vertical = vertical;
+        requestLayout();
+    }
+
+
     /**
      * Any layout manager that doesn't scroll will want this.
      */
@@ -67,39 +74,66 @@ public class CardStackLayout extends ViewGroup {
     @Override
     protected void onMeasure(final int widthMeasureSpec, final int heightMeasureSpec) {
         final int count = getChildCount();
-        /** ∑delta of child (0, childCount-1) + height of the last child */
-        int height = 0;
-        /** max width of children */
-        int maxWidth = 0;
-        int childState = 0;
-        for (int i = 0; i < count; i++) {
-            final View child = getChildAt(i);
-            if (child.getVisibility() != GONE) {
-                measureChild(child, widthMeasureSpec, heightMeasureSpec);
-                // height
-                height += computeChildDelta(child);
-                // maxWidth
-                maxWidth = Math.max(maxWidth, child.getMeasuredWidth());
-                // childState
-                childState = combineMeasuredStates(childState, child.getMeasuredState());
+        if (vertical) {
+            /** ∑delta of child (0, childCount-1) + height of the last child */
+            int height = 0;
+            /** max width of children */
+            int maxWidth = 0;
+            int childState = 0;
+            for (int i = 0; i < count; i++) {
+                final View child = getChildAt(i);
+                if (child.getVisibility() != GONE) {
+                    measureChild(child, widthMeasureSpec, heightMeasureSpec);
+                    // height
+                    height += computeChildDelta(child);
+                    // maxWidth
+                    maxWidth = Math.max(maxWidth, child.getMeasuredWidth());
+                    // childState
+                    childState = combineMeasuredStates(childState, child.getMeasuredState());
+                }
             }
+            if (count > 0) {
+                final View lastChild = getChildAt(count - 1);
+                height -= computeChildDelta(lastChild);
+                height += lastChild.getMeasuredHeight();
+            }
+            setMeasuredDimension(
+                    resolveSizeAndState(maxWidth, widthMeasureSpec, childState),
+                    resolveSizeAndState(height, heightMeasureSpec, childState << MEASURED_HEIGHT_STATE_SHIFT)
+            );
+        } else {
+            int width = 0;
+            int maxHeight = 0;
+            int childState = 0;
+
+            for (int i = 0; i < count; i++) {
+                final View child = getChildAt(i);
+                if (child.getVisibility() != GONE) {
+                    measureChild(child, widthMeasureSpec, heightMeasureSpec);
+                    // height
+                    width += computeChildDelta(child);
+                    // maxWidth
+                    maxHeight = Math.max(maxHeight, child.getMeasuredHeight());
+                    // childState
+                    childState = combineMeasuredStates(childState, child.getMeasuredState());
+                }
+            }
+            if (count > 0) {
+                final View lastChild = getChildAt(count - 1);
+                width -= computeChildDelta(lastChild);
+                width += lastChild.getMeasuredWidth();
+            }
+            setMeasuredDimension(
+                    resolveSizeAndState(width, widthMeasureSpec, childState << MEASURED_HEIGHT_STATE_SHIFT),
+                    resolveSizeAndState(maxHeight, heightMeasureSpec, childState)
+            );
         }
-        if (count > 0) {
-            final View lastChild = getChildAt(count - 1);
-            height -= computeChildDelta(lastChild);
-            height += lastChild.getMeasuredHeight();
-        }
-        setMeasuredDimension(
-                resolveSizeAndState(maxWidth, widthMeasureSpec, childState),
-                resolveSizeAndState(height, heightMeasureSpec, childState << MEASURED_HEIGHT_STATE_SHIFT)
-        );
     }
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         final int count = getChildCount();
-
-        final int leftPos = getPaddingLeft();
+        int leftPos = getPaddingLeft();
         int topPos = getPaddingTop();
         final int maxRightPos = r - l - getPaddingRight();
         final int maxBottomPos = b - t - getPaddingBottom();
@@ -115,14 +149,19 @@ public class CardStackLayout extends ViewGroup {
                     Math.min(leftPos + child.getMeasuredWidth(), maxRightPos),
                     Math.min(topPos + child.getMeasuredHeight(), maxBottomPos)
             );
-            topPos += computeChildDelta(child);
+            if (vertical) {
+                topPos += computeChildDelta(child);
+            } else {
+                leftPos += computeChildDelta(child);
+            }
         }
     }
 
     private int computeChildDelta(View child) {
         boolean isOpen = child instanceof AndroidCardView && ((AndroidCardView) child).isOpen();
         final int childDelta = ((LayoutParams) child.getLayoutParams()).delta;
-        return childDelta < 0 ? isOpen ? delta : defaultH : childDelta;// see LayoutParams.delta;
+        // see LayoutParams.delta;
+        return childDelta < 0 ? isOpen ? delta : defaultDelta : childDelta;
     }
 
     @Override

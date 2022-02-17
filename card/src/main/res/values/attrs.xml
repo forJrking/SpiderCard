@@ -3,6 +3,7 @@
 
     <declare-styleable name="CardStackLayout">
         <attr name="cslDelta" format="dimension"/>
+        <attr name="vertical" format="boolean"/>
     </declare-styleable>
 
 </resources>
